@@ -213,6 +213,18 @@
         width: 180px; /* Reducción para móviles */
       }
     }
+    /* Escena final - Asegurar que esté oculta inicialmente */
+    .final-scene {
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%; 
+      background: rgba(0,0,0,0.9);
+      z-index: 3000; 
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -364,16 +376,16 @@
       </div>
     </div>
 
-    <!-- Escena final -->
+    <!-- ESCENA FINAL CORREGIDA -->
     <div class="final-scene" id="final-scene">
-      <span class="final-close-btn" onclick="hideFinalScene()">&times;</span>
-      <h1>¡Feliz cumpleaños, Bren. Mi conocida favorita!🥳</h1>
-      <div class="pastel-container">
-        <img src="images/pastel.gif" class="pastel-gif" alt="Pastel de cumpleaños">
-      </div>
-      <audio id="music">
-        <source src="images/cancion.mp3" type="audio/mpeg">
-      </audio>
+        <span class="final-close-btn" onclick="hideFinalScene()">&times;</span>
+        <h1>¡Feliz cumpleaños, Bren. Mi conocida favorita!🥳</h1>
+        <div class="pastel-container">
+            <img src="images/pastel.gif" class="pastel-gif" alt="Pastel de cumpleaños">
+        </div>
+        <audio id="music">
+            <source src="images/cancion.mp3" type="audio/mpeg">
+        </audio>
     </div>
   </div>
 
