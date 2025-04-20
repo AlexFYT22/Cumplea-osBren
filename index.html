@@ -1,593 +1,456 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>¡Feliz Cumpleaños Bren!</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <!-- Simplificamos el viewport para evitar cálculos extraños de vh en Android -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Feliz Cumpleaños Bren!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: url('images/lobby4.png') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+    .container {
+      position: relative;
+      min-height: 100vh;
+      /* Eliminamos Flexbox para que las posiciones absolutas no se vean afectadas */
+    }
 
-        body {
-            background: url('images/lobby4.png') no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            color: white;
-        }
+    /* Nombre de jugador */
+    .player-name {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      width: 250px;
+      cursor: pointer;
+      z-index: 1000;
+    }
 
-        .container {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    /* Botones superiores */
+    .top-buttons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 15px;
+      z-index: 1000;
+    }
+    .btn.square-btn {
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .btn.square-btn img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    .btn.square-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 5px;
+      padding: 2px;
+      background: linear-gradient(45deg, #ffd700, #ff4500);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderSquareAnim 2s linear infinite;
+    }
+    @keyframes borderSquareAnim {
+      0%   { mask-position: 0% 0%;   background-position: 0% 0%; }
+      100% { mask-position: 100% 100%; background-position: 100% 100%; }
+    }
 
-        /* Elementos del jugador */
-        .player-name {
-            position: absolute;
-            top: 20px;
-            left: 30px;
-            width: 250px;
-            cursor: pointer;
-            transition: transform 0.3s;
-            z-index: 1000;
-        }
+    /* Botones laterales */
+    .left-buttons {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      z-index: 1000;
+    }
+    .btn.rect-btn {
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    .btn.rect-btn img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+    .btn.rect-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 5px;
+      padding: 2px;
+      background: linear-gradient(45deg, #ffd700, #ff4500);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderRectAnim 2s linear infinite;
+    }
+    @keyframes borderRectAnim {
+      0%   { mask-position: 0% 0%;   background-position: 0% 0%; }
+      100% { mask-position: 100% 100%; background-position: 100% 100%; }
+    }
 
-        /* Botones superiores */
-        .top-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 15px;
-            z-index: 1000;
-        }
+    /* Personaje central */
+    .character {
+      position: absolute;
+      bottom: 11%;
+      left: 55%;
+      transform: translateX(-50%);
+      height: 80vh;
+      max-width: 90vw;
+      z-index: 500;
+    }
 
-        /* Botones superiores con animación cuadrada */
-        .btn.square-btn::before {
-            border-radius: 5px;
-            animation: borderSquareAnim 2s linear infinite;
-        }
+    /* Botón iniciar */
+    .start-btn.rect-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 125px;
+      max-width: 80%;
+      z-index: 1000;
+    }
+    .start-btn.rect-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-        @keyframes borderSquareAnim {
-            0% { mask-position: 0% 0%; background-position: 0% 0%; }
-            100% { mask-position: 100% 100%; background-position: 100% 100%; }
-        }
+    /* Modales genéricos */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+    }
+    .modal-content {
+      position: relative;
+      background: rgba(0,0,0,0.9);
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #fff;
+    }
 
-        .btn.square-btn img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
+    /* Escena final */
+    .final-scene {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 3000;
+      text-align: center;
+    }
+    .final-scene h1 {
+      margin: 20px 0;
+      position: relative;
+      z-index: 3100;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      padding: 0 15px;
+    }
+    .final-close-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 35px;
+      cursor: pointer;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(255,0,0,0.5);
+      z-index: 9999;
+      transition: transform 0.3s;
+    }
+    .final-close-btn:hover {
+      transform: scale(1.2);
+    }
 
-        /* Botones laterales */
-        .left-buttons {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            z-index: 1000;
-        }
+    /* Pastel animado */
+    .pastel-container {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3000;
+      max-width: 95vw;
+    }
+    .pastel-gif {
+      max-height: 70vh;
+      width: auto;
+      filter: drop-shadow(0 0 25px rgba(255,215,0,0.7));
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
 
-        /* Estilos de botones */
-        .btn {
-            position: relative;
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            min-width: 50px;
-            min-height: 50px;
-            transition: transform 0.3s;
-        }
-
-        .btn:hover {
-            transform: scale(1.1);
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(45deg, #ffd700, #ff4500);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: borderAnim 2s linear infinite;
-        }
-
-        /* Personaje central */
-        .character {
-            position: absolute;
-            bottom: 11%;
-            left: 55%;
-            transform: translateX(-50%);
-            height: 80vh;
-            max-width: 90vw;
-            z-index: 500;
-        }
-
-        /* Botón Iniciar */
-        .start-btn.rect-btn {
-            width: 300px;
-            height: 125px;
-            max-width: 80%;
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .start-btn.rect-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* Modales */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-        }
-
-        .modal-content {
-            position: relative;
-            background: rgba(0,0,0,0.9);
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Escena final */
-        .final-scene {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 3000;
-            text-align: center;
-        }
-
-        .final-scene h1 {
-            margin: 20px 0;
-            position: relative;
-            z-index: 3100;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            padding: 0 15px;
-        }
-
-        .final-close-btn {
-            position: fixed;
-            top: 20px !important;
-            right: 20px !important;
-            color: white;
-            font-size: 35px;
-            cursor: pointer;
-            z-index: 9999; /* Valor ultra alto */
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            pointer-events: auto;
-            transition: transform 0.3s;
-        }
-
-        .final-close-btn:hover {
-            transform: scale(1.2);
-        }
-
-        .pastel-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3000;
-            max-width: 95vw;
-        }
-
-        .pastel-gif {
-            max-height: 70vh;
-            width: auto;
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Estilos responsive */
-        @media (max-width: 768px) {
-            .character {
-                left: 50%;
-                bottom: 15%;
-                height: 65vh;
-            }
-
-            .left-buttons {
-                gap: 15px;
-                left: 10px;
-                transform: translateY(-45%);
-            }
-
-            .btn.rect-btn img {
-                height: 35px;
-            }
-
-            .player-name {
-                width: 200px;
-                top: 15px;
-                left: 15px;
-            }
-
-            .top-buttons {
-                top: 15px;
-                right: 15px;
-                gap: 10px;
-            }
-
-            .btn.square-btn img {
-                width: 35px;
-                height: 35px;
-            }
-
-            .start-btn.rect-btn {
-                width: 250px;
-                height: 100px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .character {
-                height: 55vh;
-                bottom: 20%;
-            }
-
-            .left-buttons {
-                gap: 10px;
-            }
-
-            .btn.rect-btn {
-                padding: 5px;
-            }
-
-            .btn.rect-btn img {
-                height: 30px;
-            }
-
-            .pastel-gif {
-                max-height: 60vh;
-            }
-
-            .final-close-btn {
-                font-size: 28px;
-                right: 15px;
-                top: 15px;
-            }
-
-            .modal-content {
-                padding: 15px;
-            }
-
-            .modal-content p {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Estilos comunes para contenido */
-        .store-items {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .eventos-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .evento-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .misiones-list {
-            text-align: left;
-            padding: 0 20px;
-            font-size: 0.95rem;
-        }
-
-        @keyframes borderAnim {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .btn.rect-btn {
-            width: auto;
-            height: auto;
-            padding: 8px;
-            border-radius: 5px;
-        }
-
-        .btn.rect-btn::before {
-            border-radius: 5px;
-            animation: borderRectAnim 2s linear infinite;
-        }
-
-        .btn.rect-btn img {
-            height: 40px;
-            width: auto;
-        }
-        @keyframes borderRectAnim {
-            0% { mask-position: 0% 0%; background-position: 0% 0%; }
-            100% { mask-position: 100% 100%; background-position: 100% 100%; }
-        }
-    </style>
+    /* Responsive: tablet/mobile */
+    @media (max-width: 768px) {
+      .character {
+        height: 60vh;
+        bottom: 12%;
+      }
+      .left-buttons {
+        top: 45%;
+        transform: translateY(0);
+      }
+      .start-btn.rect-btn {
+        bottom: 15px;
+        right: 10px;
+        width: 220px;
+        height: auto;
+      }
+    }
+    @media (max-width: 480px) {
+      .character {
+        height: 50vh;
+        bottom: 15%;
+      }
+      .left-buttons {
+        top: 40%;
+        transform: translateY(0);
+      }
+      .start-btn.rect-btn {
+        bottom: 10px;
+        right: 10px;
+        width: 180px;
+        height: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Elementos principales -->
-        <img src="images/nombre.jpeg" class="player-name" onclick="showModal('profile-modal')">
-        <img src="images/personaje.png" class="character">
+  <div class="container">
+    <!-- Nombre de jugador -->
+    <img src="images/nombre.jpeg" class="player-name" onclick="showModal('profile-modal')">
+    <!-- Personaje central -->
+    <img src="images/personaje.png" class="character">
 
-        <!-- Botones superiores -->
-        <div class="top-buttons">
-            <button class="btn square-btn" onclick="showModal('amigos-modal')">
-                <img src="images/amigos.jpg">
-            </button>
-            <button class="btn square-btn" onclick="showModal('correo-modal')">
-                <img src="images/correo.jpg">
-            </button>
-            <button class="btn square-btn" onclick="showModal('ajustes-modal')">
-                <img src="images/ajustes.jpg">
-            </button>
-        </div>
-
-        <!-- Botones laterales -->
-        <div class="left-buttons">
-            <button class="btn rect-btn" onclick="showModal('tienda-modal')">
-                <img src="images/tienda.jpg">
-            </button>
-            <button class="btn rect-btn" onclick="showModal('luck-modal')">
-                <img src="images/luck.jpg">
-            </button>
-            <button class="btn rect-btn" onclick="showModal('booyah-modal')">
-                <img src="images/pase.jpg">
-            </button>
-            <button class="btn rect-btn" onclick="showModal('misiones-modal')">
-                <img src="images/misiones.jpg">
-            </button>
-            <button class="btn rect-btn" onclick="showModal('eventos-modal')">
-                <img src="images/eventos.jpg">
-            </button>
-        </div>
-
-        <!-- Botón de mensaje modificado -->
-        <button class="btn rect-btn" style="position: absolute; bottom: 30px; left: 20px;" onclick="showModal('mensajes-modal')">
-            <img src="images/mensajes.jpg">
-        </button>
-        
-        <!-- Botón de inicio -->
-        <button class="btn rect-btn start-btn" onclick="showFinalScene()">
-            <img src="images/boton-iniciar.jpeg">
-        </button>
-
-        <!-- Modales -->
-        <div id="profile-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <img src="images/CapPerfil.jpg" style="width:100%">
-                <p>Apoco si muy pro</p>
-            </div>
-        </div>
-
-        <div id="correo-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <img src="images/ChocolateRosa.png" style="width:80%">
-                <p style="margin-top: 15px;">A ver si no me lo menosprecias JAJA NTC</p>
-            </div>
-        </div>
-
-        <div id="tienda-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Tienda Especial</h3>
-                <div class="store-items">
-                    <div>
-                        <img src="images/Mazapan.png" style="height:100px">
-                        <p>Mazapan - 5 monedas</p>
-                    </div>
-                    <div>
-                        <img src="images/Cremino.png" style="height:100px">
-                        <p>Chocolate - 5 monedas</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="luck-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <p style="padding: 20px;">Ya te gastaste toda tu suerte hace 2 años el dia que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣</p>
-            </div>
-        </div>
-
-        <div id="booyah-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <p style="padding: 20px;">Revisa tu correo en el juego ^-^</p>
-            </div>
-        </div>
-
-        <div id="misiones-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Misiones de la escuadra</h3>
-                <ol class="misiones-list">
-                    <li>Caer siempre en zona azul</li>
-                    <li>Si vez que derribaron a toda la escuadra corre a revivir!</li>
-                    <li>Si cachondo no habla ve a ayudarlo que tiene gente</li>
-                    <li>Si esta apunto de derribar a un enemigo espera a Alex para que lo robe.</li>
-                </ol>
-            </div>
-        </div>
-
-        <div id="eventos-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h3>Eventos completados</h3>
-                <div class="eventos-content">
-                    <div>
-                        <img src="images/partidas-ff.jpeg" class="evento-img">
-                        <p>Más partiditas de Free Fire</p>
-                    </div>
-                    <div>
-                        <img src="images/terror.jpeg" class="evento-img">
-                        <p>Juegos random de terror en dias random</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="amigos-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <p style="padding: 20px;">¿Amigos? Quise decir conocidos 👻</p>
-            </div>
-        </div>
-        
-        <div id="ajustes-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <p style="padding: 20px;">No le muevas que se descompone 😶</p>
-            </div>
-        </div>
-        
-        <div id="mensajes-modal" class="modal" onclick="hideModal(event)">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <p style="padding: 20px;">Saca las enchiladas de arándano, o de que eran? JAJA 😋</p>
-            </div>
-        </div>
-
-        <!-- Escena final -->
-        <div class="final-scene" id="final-scene">
-            <span class="final-close-btn" onclick="hideFinalScene()">&times;</span>
-            <h1>¡Feliz cumpleaños, Bren. Mi conocida favorita!🥳</h1>
-            <div class="pastel-container">
-                <img src="images/pastel.gif" class="pastel-gif">
-            </div>
-            <audio id="music">
-                <source src="images/cancion.mp3" type="audio/mpeg">
-            </audio>
-        </div>
+    <!-- Botones superiores -->
+    <div class="top-buttons">
+      <button class="btn square-btn" onclick="showModal('amigos-modal')">
+        <img src="images/amigos.jpg" alt="Amigos">
+      </button>
+      <button class="btn square-btn" onclick="showModal('correo-modal')">
+        <img src="images/correo.jpg" alt="Correo">
+      </button>
+      <button class="btn square-btn" onclick="showModal('ajustes-modal')">
+        <img src="images/ajustes.jpg" alt="Ajustes">
+      </button>
     </div>
 
-    <script>
-        let musicPlayer = null;
+    <!-- Botones laterales -->
+    <div class="left-buttons">
+      <button class="btn rect-btn" onclick="showModal('tienda-modal')">
+        <img src="images/tienda.jpg" alt="Tienda">
+      </button>
+      <button class="btn rect-btn" onclick="showModal('luck-modal')">
+        <img src="images/luck.jpg" alt="Luck Royale">
+      </button>
+      <button class="btn rect-btn" onclick="showModal('booyah-modal')">
+        <img src="images/pase.jpg" alt="Pase Booyah">
+      </button>
+      <button class="btn rect-btn" onclick="showModal('misiones-modal')">
+        <img src="images/misiones.jpg" alt="Misiones">
+      </button>
+      <button class="btn rect-btn" onclick="showModal('eventos-modal')">
+        <img src="images/eventos.jpg" alt="Eventos">
+      </button>
+    </div>
 
-        function showModal(id) {
-            document.getElementById(id).style.display = 'block';
-        }
+    <!-- Botón mensajes -->
+    <button class="btn rect-btn" style="position:absolute; bottom:30px; left:20px;" onclick="showModal('mensajes-modal')">
+      <img src="images/mensajes.jpg" alt="Mensajes">
+    </button>
 
-        function hideModal(event) {
-            if(event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        }
+    <!-- Botón iniciar -->
+    <button class="btn rect-btn start-btn" onclick="showFinalScene()">
+      <img src="images/boton-iniciar.jpeg" alt="Iniciar">
+    </button>
 
-        function showMessage(msg) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width: 300px;">
-                    <span class="close-btn" onclick="this.parentElement.parentElement.remove()">&times;</span>
-                    <p style="padding: 20px;">${msg}</p>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
+    <!-- Modales -->
+    <div id="profile-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img src="images/CapPerfil.jpg" style="width:100%" alt="Perfil">
+        <p>Apoco si muy pro</p>
+      </div>
+    </div>
+    <div id="correo-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img src="images/ChocolateRosa.png" style="width:80%" alt="Chocolate Tía Rosa">
+        <p style="margin-top:15px;">A ver si no me lo menosprecias JAJA NTC</p>
+      </div>
+    </div>
+    <div id="tienda-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Tienda Especial</h3>
+        <div class="store-items">
+          <div>
+            <img src="images/Mazapan.png" style="height:100px" alt="Mazapán">
+            <p>Mazapán - 5 monedas</p>
+          </div>
+          <div>
+            <img src="images/Cremino.png" style="height:100px" alt="Chocolate">
+            <p>Chocolate - 5 monedas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="luck-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p style="padding:20px;">
+          Ya te gastaste toda tu suerte hace 2 años el dia que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣
+        </p>
+      </div>
+    </div>
+    <div id="booyah-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p style="padding:20px;">Revisa tu correo en el juego ^-^</p>
+      </div>
+    </div>
+    <div id="misiones-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Misiones de la escuadra</h3>
+        <ol class="misiones-list">
+          <li>Caer siempre en zona azul</li>
+          <li>Si vez que derribaron a toda la escuadra corre a revivir!</li>
+          <li>Si cachondo no habla ve a ayudarlo que tiene gente</li>
+          <li>Si esta apunto de derribar a un enemigo espera a Alex para que lo robe.</li>
+        </ol>
+      </div>
+    </div>
+    <div id="eventos-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Eventos completados</h3>
+        <div class="eventos-content">
+          <div>
+            <img src="images/partidas-ff.jpeg" class="evento-img" alt="Partidas FF">
+            <p>Más partiditas de Free Fire</p>
+          </div>
+          <div>
+            <img src="images/terror.jpeg" class="evento-img" alt="Juegos de terror">
+            <p>Juegos random de terror en días random</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="amigos-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p style="padding:20px;">¿Amigos? Quise decir conocidos 👻</p>
+      </div>
+    </div>
+    <div id="ajustes-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p style="padding:20px;">No le muevas que se descompone 😶</p>
+      </div>
+    </div>
+    <div id="mensajes-modal" class="modal" onclick="hideModal(event)">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p style="padding:20px;">Saca las enchiladas de arándano, o de qué eran? JAJA 😋</p>
+      </div>
+    </div>
 
-        function showFinalScene() {
-            const scene = document.getElementById('final-scene');
-            scene.style.display = 'block';
-            
-            musicPlayer = new Audio('images/cancion.mp3');
-            musicPlayer.loop = true;
-            
-            try {
-                musicPlayer.play();
-            } catch (error) {
-                scene.onclick = () => musicPlayer.play();
-            }
-        }
-        
-        function hideFinalScene() {
-            const scene = document.getElementById('final-scene');
-            scene.style.display = 'none';
-            if(musicPlayer) {
-                musicPlayer.pause();
-                musicPlayer.currentTime = 0;
-                musicPlayer = null; // Limpiar referencia
-            }
-            // Forzar redibujado del DOM
-            void scene.offsetHeight;
-        }
+    <!-- Escena final -->
+    <div class="final-scene" id="final-scene">
+      <span class="final-close-btn" onclick="hideFinalScene()">&times;</span>
+      <h1>¡Feliz cumpleaños, Bren. Mi conocida favorita!🥳</h1>
+      <div class="pastel-container">
+        <img src="images/pastel.gif" class="pastel-gif" alt="Pastel de cumpleaños">
+      </div>
+      <audio id="music">
+        <source src="images/cancion.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
 
-        // Cierre de modales
-        document.querySelectorAll('.close-btn').forEach(btn => {
-            btn.onclick = function() {
-                this.closest('.modal').style.display = 'none';
-            };
-        });
+  <script>
+    let musicPlayer = null;
 
-        // Prevenir cierre al hacer clic en el contenido
-        document.querySelectorAll('.modal-content').forEach(item => {
-            item.addEventListener('click', e => e.stopPropagation());
-        });
-    </script>
+    function showModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+    function hideModal(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+      }
+    }
+    function showFinalScene() {
+      const scene = document.getElementById('final-scene');
+      scene.style.display = 'block';
+      musicPlayer = new Audio('images/cancion.mp3');
+      musicPlayer.loop = true;
+      musicPlayer.play().catch(() => {
+        scene.onclick = () => musicPlayer.play();
+      });
+    }
+    function hideFinalScene() {
+      const scene = document.getElementById('final-scene');
+      scene.style.display = 'none';
+      if (musicPlayer) {
+        musicPlayer.pause();
+        musicPlayer.currentTime = 0;
+        musicPlayer = null;
+      }
+    }
+    // Cierre de modales con botón X
+    document.querySelectorAll('.close-btn').forEach(btn => {
+      btn.onclick = () => btn.closest('.modal').style.display = 'none';
+    });
+    // Evitar cierre al clicar contenido
+    document.querySelectorAll('.modal-content').forEach(c => {
+      c.addEventListener('click', e => e.stopPropagation());
+    });
+  </script>
 </body>
 </html>
