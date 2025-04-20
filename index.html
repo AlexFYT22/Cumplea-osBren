@@ -54,30 +54,41 @@
       100% { mask-position:100%100%; background-position:100%100%; }
     }
 
-    /* Botones laterales - Modificaciones aplicadas */
+    /* Botones laterales - Nueva posición */
     .left-buttons {
       position: absolute;
-      left: 20px; top: 60%;
-      transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 15px; /* Reducido de 20px */
+      left: 20px;
+      top: 100px; /* Debajo del nombre */
+      display: flex; 
+      flex-direction: column; 
+      gap: 8px; /* Reducción de espacio */
       z-index: 1000;
     }
     .btn.rect-btn {
-      position: relative; background: none; border: none;
-      cursor: pointer; padding: 4px; border-radius: 5px;
+      position: relative; 
+      background: none; 
+      border: none;
+      cursor: pointer; 
+      padding: 3px; 
+      border-radius: 5px;
+      margin: 2px 0; /* Espaciado mínimo */
     }
     .btn.rect-btn img {
-      height: 25px; /* Reducido de 30px */
-      width: auto; display: block;
+      height: 25px; 
+      width: auto; 
+      display: block;
     }
     .btn.rect-btn::before {
       content: '';
-      position: absolute; inset: 0;
-      border-radius: 5px; padding: 2px;
+      position: absolute; 
+      inset: 0;
+      border-radius: 5px; 
+      padding: 2px;
       background: linear-gradient(45deg, #ffd700, #ff4500);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
+      -webkit-mask-composite: xor; 
+      mask-composite: exclude;
       animation: borderRectAnim 2s linear infinite;
     }
     @keyframes borderRectAnim {
@@ -88,149 +99,118 @@
     /* Personaje central */
     .character {
       position: absolute;
-      bottom: 10%; left: 50%; transform: translateX(-50%);
-      height: 75vh; max-width: 90vw;
+      bottom: 10%; 
+      left: 50%; 
+      transform: translateX(-50%);
+      height: 75vh; 
+      max-width: 90vw;
       z-index: 500;
     }
 
-    /* Botón iniciar - Posición modificada */
+    /* Botón iniciar */
     .start-btn.rect-btn {
       position: absolute;
-      bottom: 50px; /* Cambiado de 20px */
+      bottom: 50px; 
       right: 20px;
-      width: 180px; height: 60px; 
-      max-width: 70%;
+      width: 180px; 
+      height: 60px; 
       z-index: 1000;
       filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
     }
     .start-btn.rect-btn img {
-      width: 100%; height: 100%; 
-      object-fit: contain; display: block;
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain; 
+      display: block;
     }
 
-    /* Botón mensajes - Posición corregida */
+    /* Botón mensajes - Nueva posición */
     .mensajes-btn {
       position: absolute;
-      bottom: 20px !important; 
-      left: 20px !important;
-      top: auto !important;
+      left: 20px;
+      top: 370px; /* Posición debajo de eventos */
       z-index: 1000;
     }
     .mensajes-btn img {
-      height: 30px; width: auto; display: block;
+      height: 25px; 
+      width: auto; 
+      display: block;
     }
 
     /* Modales genéricos */
     .modal {
-      display: none; position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%; 
+      background: rgba(0,0,0,0.7);
       z-index: 2000;
     }
     .modal-content {
-      position: relative; background: rgba(0,0,0,0.9);
-      padding: 20px; border-radius:10px;
-      width:90%; max-width:300px;
-      top:50%; left:50%; transform:translate(-50%,-50%);
-      text-align:center; color:#fff;
+      position: relative; 
+      background: rgba(0,0,0,0.9);
+      padding: 20px; 
+      border-radius:10px;
+      width:90%; 
+      max-width:300px;
+      top:50%; 
+      left:50%; 
+      transform:translate(-50%,-50%);
+      text-align:center; 
+      color:#fff;
     }
     .close-btn {
-      position:absolute; top:10px; right:10px;
-      font-size:24px; cursor:pointer; color:#fff;
+      position:absolute; 
+      top:10px; 
+      right:10px;
+      font-size:24px; 
+      cursor:pointer; 
+      color:#fff;
     }
 
-    /* Tienda */
-    .store-items img {
-      max-width:45%; height:auto; margin-bottom:10px;
-    }
-
-    /* Eventos */
-    .eventos-content {
-      display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:15px 0;
-    }
-    .evento-img {
-      width:100%; height:auto; border-radius:8px; object-fit:cover;
-    }
-
-    /* Escena final */
-    .final-scene {
-      display:none; position:fixed; top:0; left:0;
-      width:100%; height:100%; background:rgba(0,0,0,0.9);
-      z-index:3000; text-align:center;
-    }
-    .final-scene h1 {
-      margin:15px 0; position:relative; z-index:3100;
-      text-shadow:2px 2px 4px rgba(0,0,0,0.5);
-      font-size:clamp(1.5rem,5vw,2rem); padding:0 10px;
-    }
-    .final-close-btn {
-      position:fixed; top:15px; right:15px;
-      font-size:30px; cursor:pointer; color:#fff;
-      text-shadow:0 0 5px rgba(255,0,0,0.5); z-index:9999;
-    }
-
-    /* Pastel animado */
-    .pastel-container {
-      position:absolute; top:50%; left:50%;
-      transform:translate(-50%,-50%); z-index:3000; max-width:90vw;
-    }
-    .pastel-gif {
-      max-height:60vh; width:auto;
-      filter:drop-shadow(0 0 20px rgba(255,215,0,0.7));
-      animation:float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%   { transform:translateY(0); }
-      50%  { transform:translateY(-15px); }
-      100% { transform:translateY(0); }
-    }
-
-    /* Responsive - Modificaciones aplicadas */
+    /* Responsive - Ajustes definitivos */
     @media (max-width:768px) {
       .left-buttons {
-        top:65%; transform:translateY(0); 
-        gap:10px; /* Reducido de 12px */
+        top: 90px; /* Ajuste posición móvil */
+        gap: 6px; /* Reducción extrema de espacio */
       }
-      .left-buttons .btn.rect-btn img {
-        height:20px; /* Reducido de 22px */
-      }
-      .top-buttons .btn.square-btn img {
-        width:22px; height:22px;
-      }
-      .start-btn.rect-btn {
-        width:140px; height:50px;
-        bottom:30px; /* Ajustado de 12px */
-        right:12px;
+      .btn.rect-btn img {
+        height: 22px;
       }
       .mensajes-btn {
-        bottom:15px !important; /* Asegurada posición */
-        left:15px !important;
+        top: 330px; /* Posición exacta en móvil */
+        left: 20px;
       }
-      .character {
-        height:55vh; bottom:18%;
+      .start-btn.rect-btn {
+        bottom: 30px;
+        right: 15px;
+        width: 160px;
+        height: 55px;
       }
     }
+
     @media (max-width:480px) {
       .left-buttons {
-        top:70%; transform:translateY(0); 
-        gap:8px; /* Reducido de 8px */
+        top: 80px; /* Ajuste para móviles pequeños */
+        gap: 4px; /* Espacio casi pegado */
       }
-      .left-buttons .btn.rect-btn img {
-        height:18px; /* Reducido de 18px */
-      }
-      .top-buttons .btn.square-btn img {
-        width:18px; height:18px;
-      }
-      .start-btn.rect-btn {
-        width:120px; height:45px;
-        bottom:25px; /* Ajustado de 8px */
-        right:8px;
+      .btn.rect-btn img {
+        height: 20px; /* Tamaño mínimo legible */
       }
       .mensajes-btn {
-        bottom:10px !important; /* Asegurada posición */
-        left:10px !important;
+        top: 300px; /* Posición exacta en móviles pequeños */
+        left: 15px;
       }
-      .character {
-        height:45vh; bottom:20%;
+      .start-btn.rect-btn {
+        bottom: 25px;
+        right: 10px;
+        width: 140px;
+        height: 50px;
+      }
+      .player-name {
+        width: 180px; /* Reducción para móviles */
       }
     }
   </style>
