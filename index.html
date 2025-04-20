@@ -54,12 +54,12 @@
       100% { mask-position:100%100%; background-position:100%100%; }
     }
 
-    /* Botones laterales */
+    /* Botones laterales - Modificaciones aplicadas */
     .left-buttons {
       position: absolute;
       left: 20px; top: 60%;
       transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 20px;
+      display: flex; flex-direction: column; gap: 15px; /* Reducido de 20px */
       z-index: 1000;
     }
     .btn.rect-btn {
@@ -67,7 +67,8 @@
       cursor: pointer; padding: 4px; border-radius: 5px;
     }
     .btn.rect-btn img {
-      height: 30px; width: auto; display: block;
+      height: 25px; /* Reducido de 30px */
+      width: auto; display: block;
     }
     .btn.rect-btn::before {
       content: '';
@@ -92,21 +93,27 @@
       z-index: 500;
     }
 
-    /* Botón iniciar */
+    /* Botón iniciar - Posición modificada */
     .start-btn.rect-btn {
       position: absolute;
-      bottom: 20px; right: 20px;
-      width: 180px; height: 60px; max-width: 70%;
+      bottom: 50px; /* Cambiado de 20px */
+      right: 20px;
+      width: 180px; height: 60px; 
+      max-width: 70%;
       z-index: 1000;
+      filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
     }
     .start-btn.rect-btn img {
-      width: 100%; height: 100%; object-fit: contain; display: block;
+      width: 100%; height: 100%; 
+      object-fit: contain; display: block;
     }
 
-    /* Botón mensajes */
+    /* Botón mensajes - Posición corregida */
     .mensajes-btn {
       position: absolute;
-      bottom: 20px; left: 20px;
+      bottom: 20px !important; 
+      left: 20px !important;
+      top: auto !important;
       z-index: 1000;
     }
     .mensajes-btn img {
@@ -177,23 +184,26 @@
       100% { transform:translateY(0); }
     }
 
-    /* Responsive */
+    /* Responsive - Modificaciones aplicadas */
     @media (max-width:768px) {
       .left-buttons {
-        top:65%; transform:translateY(0); gap:12px;
+        top:65%; transform:translateY(0); 
+        gap:10px; /* Reducido de 12px */
       }
       .left-buttons .btn.rect-btn img {
-        height:22px;
+        height:20px; /* Reducido de 22px */
       }
       .top-buttons .btn.square-btn img {
         width:22px; height:22px;
       }
       .start-btn.rect-btn {
         width:140px; height:50px;
-        bottom:12px; right:12px;
+        bottom:30px; /* Ajustado de 12px */
+        right:12px;
       }
       .mensajes-btn {
-        bottom:12px; left:12px;
+        bottom:15px !important; /* Asegurada posición */
+        left:15px !important;
       }
       .character {
         height:55vh; bottom:18%;
@@ -201,20 +211,23 @@
     }
     @media (max-width:480px) {
       .left-buttons {
-        top:70%; transform:translateY(0); gap:8px;
+        top:70%; transform:translateY(0); 
+        gap:8px; /* Reducido de 8px */
       }
       .left-buttons .btn.rect-btn img {
-        height:18px;
+        height:18px; /* Reducido de 18px */
       }
       .top-buttons .btn.square-btn img {
         width:18px; height:18px;
       }
       .start-btn.rect-btn {
         width:120px; height:45px;
-        bottom:8px; right:8px;
+        bottom:25px; /* Ajustado de 8px */
+        right:8px;
       }
       .mensajes-btn {
-        bottom:8px; left:8px;
+        bottom:10px !important; /* Asegurada posición */
+        left:10px !important;
       }
       .character {
         height:45vh; bottom:20%;
