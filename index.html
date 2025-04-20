@@ -2,15 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <!-- Viewport simplificado -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¡Feliz Cumpleaños Bren!</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: url('images/lobby4.png') no-repeat center center fixed;
       background-size: cover;
@@ -19,17 +14,13 @@
       overflow: hidden;
       color: white;
     }
-    .container {
-      position: relative;
-      min-height: 100vh;
-    }
+    .container { position: relative; min-height: 100vh; }
 
     /* Nombre de jugador */
     .player-name {
       position: absolute;
-      top: 20px;
-      left: 30px;
-      width: 250px;
+      top: 20px; left: 20px;
+      width: 200px;
       cursor: pointer;
       z-index: 1000;
     }
@@ -37,305 +28,196 @@
     /* Botones superiores */
     .top-buttons {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 15px;
+      top: 20px; right: 20px;
+      display: flex; gap: 10px;
       z-index: 1000;
     }
     .btn.square-btn {
-      position: relative;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
+      position: relative; background: none; border: none;
+      cursor: pointer; padding: 0;
     }
     .btn.square-btn img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      display: block;
+      width: 30px; height: 30px; object-fit: contain; display: block;
     }
     .btn.square-btn::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 5px;
-      padding: 2px;
+      position: absolute; inset: 0;
+      border-radius: 5px; padding: 2px;
       background: linear-gradient(45deg, #ffd700, #ff4500);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+      -webkit-mask-composite: xor; mask-composite: exclude;
       animation: borderSquareAnim 2s linear infinite;
     }
     @keyframes borderSquareAnim {
-      0%   { mask-position: 0% 0%;   background-position: 0% 0%; }
-      100% { mask-position: 100% 100%; background-position: 100% 100%; }
+      0%   { mask-position: 0% 0%; background-position: 0% 0%; }
+      100% { mask-position:100%100%; background-position:100%100%; }
     }
 
     /* Botones laterales */
     .left-buttons {
       position: absolute;
-      left: 20px;
-      top: 50%;
+      left: 20px; top: 60%;
       transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
+      display: flex; flex-direction: column; gap: 20px;
       z-index: 1000;
     }
     .btn.rect-btn {
-      position: relative;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 5px;
+      position: relative; background: none; border: none;
+      cursor: pointer; padding: 4px; border-radius: 5px;
     }
     .btn.rect-btn img {
-      height: 40px;
-      width: auto;
-      display: block;
+      height: 30px; width: auto; display: block;
     }
     .btn.rect-btn::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 5px;
-      padding: 2px;
+      position: absolute; inset: 0;
+      border-radius: 5px; padding: 2px;
       background: linear-gradient(45deg, #ffd700, #ff4500);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+      -webkit-mask-composite: xor; mask-composite: exclude;
       animation: borderRectAnim 2s linear infinite;
     }
     @keyframes borderRectAnim {
-      0%   { mask-position: 0% 0%;   background-position: 0% 0%; }
-      100% { mask-position: 100% 100%; background-position: 100% 100%; }
+      0%   { mask-position:0%0%; background-position:0%0%; }
+      100% { mask-position:100%100%; background-position:100%100%; }
     }
 
     /* Personaje central */
     .character {
       position: absolute;
-      bottom: 11%;
-      left: 55%;
-      transform: translateX(-50%);
-      height: 80vh;
-      max-width: 90vw;
+      bottom: 10%; left: 50%; transform: translateX(-50%);
+      height: 75vh; max-width: 90vw;
       z-index: 500;
     }
 
     /* Botón iniciar */
     .start-btn.rect-btn {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 300px;
-      height: 125px;
-      max-width: 80%;
+      bottom: 20px; right: 20px;
+      width: 180px; height: 60px; max-width: 70%;
       z-index: 1000;
     }
     .start-btn.rect-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+      width: 100%; height: 100%; object-fit: contain; display: block;
     }
 
     /* Botón mensajes */
     .mensajes-btn {
       position: absolute;
-      bottom: 30px;
-      left: 20px;
+      bottom: 20px; left: 20px;
       z-index: 1000;
     }
     .mensajes-btn img {
-      height: 40px;
-      width: auto;
-      display: block;
+      height: 30px; width: auto; display: block;
     }
 
     /* Modales genéricos */
     .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.7);
       z-index: 2000;
     }
     .modal-content {
-      position: relative;
-      background: rgba(0,0,0,0.9);
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: #fff;
+      position: relative; background: rgba(0,0,0,0.9);
+      padding: 20px; border-radius:10px;
+      width:90%; max-width:300px;
+      top:50%; left:50%; transform:translate(-50%,-50%);
+      text-align:center; color:#fff;
     }
     .close-btn {
-      position: absolute;
-      top: 10px; right: 10px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #fff;
+      position:absolute; top:10px; right:10px;
+      font-size:24px; cursor:pointer; color:#fff;
     }
 
     /* Tienda */
     .store-items img {
-      max-width: 45%;
-      height: auto;
-      margin-bottom: 10px;
-    }
-
-    /* Escena final */
-    .final-scene {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 3000;
-      text-align: center;
-    }
-    .final-scene h1 {
-      margin: 20px 0;
-      position: relative;
-      z-index: 3100;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
-      padding: 0 15px;
-    }
-    .final-close-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      font-size: 35px;
-      cursor: pointer;
-      color: #fff;
-      text-shadow: 0 0 5px rgba(255,0,0,0.5);
-      z-index: 9999;
-      transition: transform 0.3s;
-    }
-    .final-close-btn:hover {
-      transform: scale(1.2);
-    }
-
-    /* Pastel animado */
-    .pastel-container {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 3000;
-      max-width: 95vw;
-    }
-    .pastel-gif {
-      max-height: 70vh;
-      width: auto;
-      filter: drop-shadow(0 0 25px rgba(255,215,0,0.7));
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-20px); }
-      100% { transform: translateY(0); }
+      max-width:45%; height:auto; margin-bottom:10px;
     }
 
     /* Eventos */
     .eventos-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin: 20px 0;
+      display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:15px 0;
     }
-    .eventos-content .evento-img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      object-fit: cover;
+    .evento-img {
+      width:100%; height:auto; border-radius:8px; object-fit:cover;
     }
 
-    /* Responsive: tablet/mobile */
-    @media (max-width: 768px) {
-      .character {
-        height: 60vh;
-        bottom: 12%;
-      }
+    /* Escena final */
+    .final-scene {
+      display:none; position:fixed; top:0; left:0;
+      width:100%; height:100%; background:rgba(0,0,0,0.9);
+      z-index:3000; text-align:center;
+    }
+    .final-scene h1 {
+      margin:15px 0; position:relative; z-index:3100;
+      text-shadow:2px 2px 4px rgba(0,0,0,0.5);
+      font-size:clamp(1.5rem,5vw,2rem); padding:0 10px;
+    }
+    .final-close-btn {
+      position:fixed; top:15px; right:15px;
+      font-size:30px; cursor:pointer; color:#fff;
+      text-shadow:0 0 5px rgba(255,0,0,0.5); z-index:9999;
+    }
+
+    /* Pastel animado */
+    .pastel-container {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%); z-index:3000; max-width:90vw;
+    }
+    .pastel-gif {
+      max-height:60vh; width:auto;
+      filter:drop-shadow(0 0 20px rgba(255,215,0,0.7));
+      animation:float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%   { transform:translateY(0); }
+      50%  { transform:translateY(-15px); }
+      100% { transform:translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width:768px) {
       .left-buttons {
-        top: 55%;            /* subimos un poco para evitar overlap */
-        transform: translateY(0);
-        gap: 15px;
+        top:65%; transform:translateY(0); gap:12px;
       }
       .left-buttons .btn.rect-btn img {
-        height: 30px;
-      }
-      .top-buttons {
-        gap: 10px;
+        height:22px;
       }
       .top-buttons .btn.square-btn img {
-        width: 30px;
-        height: 30px;
+        width:22px; height:22px;
       }
       .start-btn.rect-btn {
-        bottom: 15px;
-        right: 10px;
-        width: 220px;
-        height: auto;
+        width:140px; height:50px;
+        bottom:12px; right:12px;
       }
       .mensajes-btn {
-        bottom: 20px;
-        left: 15px;
+        bottom:12px; left:12px;
       }
-      .store-items img {
-        max-width: 40%;
-      }
-      .modal-content {
-        max-width: 90%;
+      .character {
+        height:55vh; bottom:18%;
       }
     }
-    @media (max-width: 480px) {
-      .character {
-        height: 50vh;
-        bottom: 15%;
-      }
+    @media (max-width:480px) {
       .left-buttons {
-        top: 60%;           /* más abajo aún */
-        transform: translateY(0);
-        gap: 10px;
+        top:70%; transform:translateY(0); gap:8px;
       }
       .left-buttons .btn.rect-btn img {
-        height: 25px;
-      }
-      .top-buttons {
-        gap: 8px;
+        height:18px;
       }
       .top-buttons .btn.square-btn img {
-        width: 25px;
-        height: 25px;
+        width:18px; height:18px;
       }
       .start-btn.rect-btn {
-        bottom: 10px;
-        right: 10px;
-        width: 180px;
-        height: auto;
+        width:120px; height:45px;
+        bottom:8px; right:8px;
       }
       .mensajes-btn {
-        bottom: 10px;
-        left: 10px;
+        bottom:8px; left:8px;
       }
-      .pastel-gif {
-        max-height: 60vh;
-      }
-      .store-items img {
-        max-width: 45%;
-      }
-      .eventos-content {
-        gap: 10px;
+      .character {
+        height:45vh; bottom:20%;
       }
     }
   </style>
@@ -343,10 +225,10 @@
 <body>
   <div class="container">
     <!-- Nombre de jugador -->
-    <img src="images/nombre.jpeg" class="player-name" onclick="showModal('profile-modal')" alt="Nombre">
+    <img src="images/nombre.jpeg" class="player-name" onclick="showModal('profile-modal')" alt="Nombre Bren">
 
     <!-- Personaje central -->
-    <img src="images/personaje.png" class="character" alt="Bren">
+    <img src="images/personaje.png" class="character" alt="Skin de Bren">
 
     <!-- Botones superiores -->
     <div class="top-buttons">
@@ -394,10 +276,11 @@
     <div id="profile-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <img src="images/CapPerfil.jpg" style="width:100%" alt="Perfil">
+        <img src="images/CapPerfil.jpg" style="width:100%" alt="Perfil Bren">
         <p>Apoco si muy pro</p>
       </div>
     </div>
+
     <div id="correo-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
@@ -405,6 +288,7 @@
         <p style="margin-top:15px;">A ver si no me lo menosprecias JAJA NTC</p>
       </div>
     </div>
+
     <div id="tienda-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
@@ -421,32 +305,34 @@
         </div>
       </div>
     </div>
+
     <div id="luck-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <p style="padding:20px;">
-          Ya te gastaste toda tu suerte hace 2 años el día que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣
-        </p>
+        <p style="padding:20px;">Ya te gastaste toda tu suerte hace 2 años el día que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣</p>
       </div>
     </div>
+
     <div id="booyah-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
         <p style="padding:20px;">Revisa tu correo en el juego ^-^</p>
       </div>
     </div>
+
     <div id="misiones-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
         <h3>Misiones de la escuadra</h3>
         <ol class="misiones-list">
           <li>Caer siempre en zona azul</li>
-          <li>Si vez que derribaron a toda la escuadra corre a revivir!</li>
-          <li>Si cachondo no habla ve a ayudarlo que tiene gente</li>
-          <li>Si esta apunto de derribar a un enemigo espera a Alex para que lo robe.</li>
+          <li>Si ves que derribaron a toda la escuadra, corre a revivir!</li>
+          <li>Si cachondo no habla, ve a ayudarlo que tiene gente</li>
+          <li>Si está a punto de derribar a un enemigo, espera a Alex para que lo robe.</li>
         </ol>
       </div>
     </div>
+
     <div id="eventos-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
@@ -456,29 +342,32 @@
             <img src="images/partidas-ff.jpeg" class="evento-img" alt="Partidas FF">
             <p>Más partiditas de Free Fire</p>
           </div>
-          <div>
+          <div>  
             <img src="images/terror.jpeg" class="evento-img" alt="Terror">
             <p>Juegos random de terror en días random</p>
           </div>
         </div>
       </div>
     </div>
+
     <div id="amigos-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
         <p style="padding:20px;">¿Amigos? Quise decir conocidos 👻</p>
       </div>
     </div>
+
     <div id="ajustes-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
         <p style="padding:20px;">No le muevas que se descompone 😶</p>
       </div>
     </div>
+
     <div id="mensajes-modal" class="modal" onclick="hideModal(event)">
-      <div class="modal-content">  
-        <span class="close-btn">&times;</span>      
-        <p style="padding:20px;">Saca las enchiladas de arándano, o de qué eran? JAJA 😋</p>
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p style="padding:20px;">Saca las enchiladas de arándano, o ¿de qué eran? JAJA 😋</p>
       </div>
     </div>
 
@@ -497,6 +386,7 @@
 
   <script>
     let musicPlayer = null;
+
     function showModal(id) {
       document.getElementById(id).style.display = 'block';
     }
@@ -523,14 +413,12 @@
         musicPlayer = null;
       }
     }
-    // Cierre de modales con botón X
-    document.querySelectorAll('.close-btn').forEach(btn => {
-      btn.onclick = () => btn.closest('.modal').style.display = 'none';
-    });
-    // Evitar cierre al clicar contenido
-    document.querySelectorAll('.modal-content').forEach(c => {
-      c.addEventListener('click', e => e.stopPropagation());
-    });
+    document.querySelectorAll('.close-btn').forEach(btn =>
+      btn.onclick = () => btn.closest('.modal').style.display = 'none'
+    );
+    document.querySelectorAll('.modal-content').forEach(c =>
+      c.addEventListener('click', e => e.stopPropagation())
+    );
   </script>
 </body>
 </html>
