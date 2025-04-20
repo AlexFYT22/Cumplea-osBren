@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <!-- Simplificamos el viewport para evitar cálculos extraños de vh en Android -->
+  <!-- Viewport simplificado -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¡Feliz Cumpleaños Bren!</title>
   <style>
@@ -22,7 +22,6 @@
     .container {
       position: relative;
       min-height: 100vh;
-      /* Eliminamos Flexbox para que las posiciones absolutas no se vean afectadas */
     }
 
     /* Nombre de jugador */
@@ -55,6 +54,7 @@
       width: 40px;
       height: 40px;
       object-fit: contain;
+      display: block;
     }
     .btn.square-btn::before {
       content: '';
@@ -141,6 +141,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      display: block;
     }
 
     /* Modales genéricos */
@@ -170,6 +171,13 @@
       font-size: 24px;
       cursor: pointer;
       color: #fff;
+    }
+
+    /* Tienda */
+    .store-items img {
+      max-width: 45%;
+      height: auto;
+      margin-bottom: 10px;
     }
 
     /* Escena final */
@@ -225,6 +233,20 @@
       100% { transform: translateY(0); }
     }
 
+    /* Eventos */
+    .eventos-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .eventos-content .evento-img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
     /* Responsive: tablet/mobile */
     @media (max-width: 768px) {
       .character {
@@ -234,12 +256,29 @@
       .left-buttons {
         top: 45%;
         transform: translateY(0);
+        gap: 15px;
+      }
+      .left-buttons .btn.rect-btn img {
+        height: 30px;
+      }
+      .top-buttons {
+        gap: 10px;
+      }
+      .top-buttons .btn.square-btn img {
+        width: 30px;
+        height: 30px;
       }
       .start-btn.rect-btn {
         bottom: 15px;
         right: 10px;
         width: 220px;
         height: auto;
+      }
+      .store-items img {
+        max-width: 40%;
+      }
+      .modal-content {
+        max-width: 90%;
       }
     }
     @media (max-width: 480px) {
@@ -250,6 +289,17 @@
       .left-buttons {
         top: 40%;
         transform: translateY(0);
+        gap: 10px;
+      }
+      .left-buttons .btn.rect-btn img {
+        height: 25px;
+      }
+      .top-buttons {
+        gap: 8px;
+      }
+      .top-buttons .btn.square-btn img {
+        width: 25px;
+        height: 25px;
       }
       .start-btn.rect-btn {
         bottom: 10px;
@@ -257,15 +307,25 @@
         width: 180px;
         height: auto;
       }
+      .pastel-gif {
+        max-height: 60vh;
+      }
+      .store-items img {
+        max-width: 45%;
+      }
+      .eventos-content {
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Nombre de jugador -->
-    <img src="images/nombre.jpeg" class="player-name" onclick="showModal('profile-modal')">
+    <img src="images/nombre.jpeg" class="player-name" onclick="showModal('profile-modal')" alt="Nombre">
+
     <!-- Personaje central -->
-    <img src="images/personaje.png" class="character">
+    <img src="images/personaje.png" class="character" alt="Bren">
 
     <!-- Botones superiores -->
     <div class="top-buttons">
@@ -320,7 +380,7 @@
     <div id="correo-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <img src="images/ChocolateRosa.png" style="width:80%" alt="Chocolate Tía Rosa">
+        <img src="images/ChocolateRosa.png" style="width:80%" alt="Chocolate">
         <p style="margin-top:15px;">A ver si no me lo menosprecias JAJA NTC</p>
       </div>
     </div>
@@ -330,11 +390,11 @@
         <h3>Tienda Especial</h3>
         <div class="store-items">
           <div>
-            <img src="images/Mazapan.png" style="height:100px" alt="Mazapán">
+            <img src="images/Mazapan.png" alt="Mazapán">
             <p>Mazapán - 5 monedas</p>
           </div>
           <div>
-            <img src="images/Cremino.png" style="height:100px" alt="Chocolate">
+            <img src="images/Cremino.png" alt="Chocolate">
             <p>Chocolate - 5 monedas</p>
           </div>
         </div>
@@ -343,9 +403,7 @@
     <div id="luck-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <p style="padding:20px;">
-          Ya te gastaste toda tu suerte hace 2 años el dia que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣
-        </p>
+        <p style="padding:20px;">Ya te gastaste toda tu suerte hace 2 años el día que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣</p>
       </div>
     </div>
     <div id="booyah-modal" class="modal" onclick="hideModal(event)">
@@ -376,7 +434,7 @@
             <p>Más partiditas de Free Fire</p>
           </div>
           <div>
-            <img src="images/terror.jpeg" class="evento-img" alt="Juegos de terror">
+            <img src="images/terror.jpeg" class="evento-img" alt="Terror">
             <p>Juegos random de terror en días random</p>
           </div>
         </div>
