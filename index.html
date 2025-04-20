@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>¡Feliz Cumpleaños Bren!</title>
     <style>
         * {
@@ -14,16 +14,18 @@
         body {
             background: url('images/lobby4.png') no-repeat center center fixed;
             background-size: cover;
-            height: 100vh;
+            min-height: 100vh;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
-            position: relative;
             color: white;
         }
 
         .container {
             position: relative;
-            height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         /* Elementos del jugador */
@@ -34,6 +36,7 @@
             width: 250px;
             cursor: pointer;
             transition: transform 0.3s;
+            z-index: 1000;
         }
 
         /* Botones superiores */
@@ -43,6 +46,7 @@
             right: 20px;
             display: flex;
             gap: 15px;
+            z-index: 1000;
         }
 
         /* Botones superiores con animación cuadrada */
@@ -52,17 +56,10 @@
         }
 
         @keyframes borderSquareAnim {
-            0% {
-                mask-position: 0% 0%;
-                background-position: 0% 0%;
-            }
-            100% {
-                mask-position: 100% 100%;
-                background-position: 100% 100%;
-            }
+            0% { mask-position: 0% 0%; background-position: 0% 0%; }
+            100% { mask-position: 100% 100%; background-position: 100% 100%; }
         }
 
-        /* Ajustar tamaño de imágenes en botones superiores */
         .btn.square-btn img {
             width: 40px;
             height: 40px;
@@ -78,6 +75,7 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
+            z-index: 1000;
         }
 
         /* Estilos de botones */
@@ -88,6 +86,8 @@
             cursor: pointer;
             width: 50px;
             height: 50px;
+            min-width: 50px;
+            min-height: 50px;
             transition: transform 0.3s;
         }
 
@@ -102,12 +102,8 @@
             border-radius: 50%;
             padding: 2px;
             background: linear-gradient(45deg, #ffd700, #ff4500);
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             animation: borderAnim 2s linear infinite;
@@ -120,15 +116,25 @@
             left: 55%;
             transform: translateX(-50%);
             height: 80vh;
+            max-width: 90vw;
+            z-index: 500;
         }
 
         /* Botón Iniciar */
-        .start-btn {
+        .start-btn.rect-btn {
+            width: 300px;
+            height: 125px;
+            max-width: 80%;
             position: absolute;
             bottom: 20px;
             right: 20px;
-            width: 80px;
-            height: 80px;
+            z-index: 1000;
+        }
+
+        .start-btn.rect-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         /* Modales */
@@ -140,7 +146,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.7);
-            z-index: 1000;
+            z-index: 2000;
         }
 
         .modal-content {
@@ -174,40 +180,27 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            padding: 20px;
+            z-index: 3000;
             text-align: center;
         }
 
         .final-scene h1 {
-            margin-bottom: 30px;
+            margin: 20px 0;
             position: relative;
-            z-index: 2600; /* Encima del pastel */
+            z-index: 3100;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            padding: 0 15px;
         }
 
-        .final-scene .final-close-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 35px;
-            cursor: pointer;
-            z-index: 3000;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            pointer-events: auto;
-
-        }
-
-        /* Botón de cierre específico para escena final */
         .final-close-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 20px !important;
+            right: 20px !important;
             color: white;
             font-size: 35px;
             cursor: pointer;
-            z-index: 3000;
+            z-index: 9999; /* Valor ultra alto */
             text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
             pointer-events: auto;
             transition: transform 0.3s;
@@ -216,11 +209,114 @@
         .final-close-btn:hover {
             transform: scale(1.2);
         }
-        /* Estilos específicos para contenido */
+
+        .pastel-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3000;
+            max-width: 95vw;
+        }
+
+        .pastel-gif {
+            max-height: 70vh;
+            width: auto;
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Estilos responsive */
+        @media (max-width: 768px) {
+            .character {
+                left: 50%;
+                bottom: 15%;
+                height: 65vh;
+            }
+
+            .left-buttons {
+                gap: 15px;
+                left: 10px;
+                transform: translateY(-45%);
+            }
+
+            .btn.rect-btn img {
+                height: 35px;
+            }
+
+            .player-name {
+                width: 200px;
+                top: 15px;
+                left: 15px;
+            }
+
+            .top-buttons {
+                top: 15px;
+                right: 15px;
+                gap: 10px;
+            }
+
+            .btn.square-btn img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .start-btn.rect-btn {
+                width: 250px;
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .character {
+                height: 55vh;
+                bottom: 20%;
+            }
+
+            .left-buttons {
+                gap: 10px;
+            }
+
+            .btn.rect-btn {
+                padding: 5px;
+            }
+
+            .btn.rect-btn img {
+                height: 30px;
+            }
+
+            .pastel-gif {
+                max-height: 60vh;
+            }
+
+            .final-close-btn {
+                font-size: 28px;
+                right: 15px;
+                top: 15px;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
+
+            .modal-content p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Estilos comunes para contenido */
         .store-items {
             display: flex;
             justify-content: space-around;
             margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .eventos-content {
@@ -240,6 +336,7 @@
         .misiones-list {
             text-align: left;
             padding: 0 20px;
+            font-size: 0.95rem;
         }
 
         @keyframes borderAnim {
@@ -247,7 +344,6 @@
             100% { transform: rotate(360deg); }
         }
 
-                /* Nuevos estilos para botones rectangulares */
         .btn.rect-btn {
             width: auto;
             height: auto;
@@ -264,53 +360,10 @@
             height: 40px;
             width: auto;
         }
-
-        /* Animación para bordes rectangulares */
         @keyframes borderRectAnim {
-            0% { 
-                mask-position: 0% 0%;
-                background-position: 0% 0%; 
-            }
-            100% { 
-                mask-position: 100% 100%;
-                background-position: 100% 100%; 
-            }
+            0% { mask-position: 0% 0%; background-position: 0% 0%; }
+            100% { mask-position: 100% 100%; background-position: 100% 100%; }
         }
-
-        /* Ajustar botón de inicio */
-        .start-btn.rect-btn {
-            width: 300px;
-            height: 125px;
-        }
-
-        .start-btn.rect-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .pastel-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2500;
-        }
-
-        .pastel-gif {
-            max-height: 110vh;
-            width: auto;
-            max-width: 100%;
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-
     </style>
 </head>
 <body>
@@ -461,14 +514,12 @@
         </div>
 
         <!-- Escena final -->
-        <div class="final-scene" id="final-scene"> 
+        <div class="final-scene" id="final-scene">
             <span class="final-close-btn" onclick="hideFinalScene()">&times;</span>
             <h1>¡Feliz cumpleaños, Bren. Mi conocida favorita!🥳</h1>
-            
             <div class="pastel-container">
                 <img src="images/pastel.gif" class="pastel-gif">
             </div>
-        
             <audio id="music">
                 <source src="images/cancion.mp3" type="audio/mpeg">
             </audio>
@@ -513,13 +564,17 @@
                 scene.onclick = () => musicPlayer.play();
             }
         }
-
+        
         function hideFinalScene() {
-            document.getElementById('final-scene').style.display = 'none';
+            const scene = document.getElementById('final-scene');
+            scene.style.display = 'none';
             if(musicPlayer) {
                 musicPlayer.pause();
                 musicPlayer.currentTime = 0;
+                musicPlayer = null; // Limpiar referencia
             }
+            // Forzar redibujado del DOM
+            void scene.offsetHeight;
         }
 
         // Cierre de modales
