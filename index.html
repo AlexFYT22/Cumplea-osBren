@@ -170,6 +170,64 @@
       color:#fff;
     }
 
+        /* Ajustes específicos para modales con imágenes */
+        .store-items img,
+    .eventos-content img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+      border-radius: 8px;
+    }
+
+    .store-items,
+    .eventos-content {
+      display: grid;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .store-items > div,
+    .eventos-content > div {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .modal-content p {
+      margin: 10px 0;
+    }
+
+        /* Ajuste especial para imagen de correo */
+    #correo-modal img {
+      max-width: 200px;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 480px) {
+      .modal-content {
+        max-width: 90%;
+        padding: 15px;
+      }
+      
+      .store-items,
+      .eventos-content {
+        grid-template-columns: 1fr;
+      }
+      
+      #correo-modal img {
+        max-width: 150px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .store-items,
+      .eventos-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
     /* Responsive - Ajustes definitivos */
     @media (max-width:768px) {
       .left-buttons {
