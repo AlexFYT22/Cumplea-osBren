@@ -29,7 +29,7 @@
       position: absolute;
       top: 20px;
       left: 30px;
-      width: 125px;
+      width: 250px;
       cursor: pointer;
       z-index: 1000;
     }
@@ -144,6 +144,19 @@
       display: block;
     }
 
+    /* Botón mensajes */
+    .mensajes-btn {
+      position: absolute;
+      bottom: 30px;
+      left: 20px;
+      z-index: 1000;
+    }
+    .mensajes-btn img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
     /* Modales genéricos */
     .modal {
       display: none;
@@ -254,25 +267,29 @@
         bottom: 12%;
       }
       .left-buttons {
-        top: 45%;
+        top: 55%;            /* subimos un poco para evitar overlap */
         transform: translateY(0);
-        gap: 10px;
+        gap: 15px;
       }
       .left-buttons .btn.rect-btn img {
-        height: 15px;
+        height: 30px;
       }
       .top-buttons {
         gap: 10px;
       }
       .top-buttons .btn.square-btn img {
-        width: 15px;
-        height: 15px;
+        width: 30px;
+        height: 30px;
       }
       .start-btn.rect-btn {
-        bottom: 10px;
+        bottom: 15px;
         right: 10px;
-        width: 110px;
+        width: 220px;
         height: auto;
+      }
+      .mensajes-btn {
+        bottom: 20px;
+        left: 15px;
       }
       .store-items img {
         max-width: 40%;
@@ -287,7 +304,7 @@
         bottom: 15%;
       }
       .left-buttons {
-        top: 40%;
+        top: 60%;           /* más abajo aún */
         transform: translateY(0);
         gap: 10px;
       }
@@ -306,6 +323,10 @@
         right: 10px;
         width: 180px;
         height: auto;
+      }
+      .mensajes-btn {
+        bottom: 10px;
+        left: 10px;
       }
       .pastel-gif {
         max-height: 60vh;
@@ -360,7 +381,7 @@
     </div>
 
     <!-- Botón mensajes -->
-    <button class="btn rect-btn" style="position:absolute; bottom:30px; left:20px;" onclick="showModal('mensajes-modal')">
+    <button class="btn rect-btn mensajes-btn" onclick="showModal('mensajes-modal')">
       <img src="images/mensajes.jpg" alt="Mensajes">
     </button>
 
@@ -403,7 +424,9 @@
     <div id="luck-modal" class="modal" onclick="hideModal(event)">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <p style="padding:20px;">Ya te gastaste toda tu suerte hace 2 años el día que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣</p>
+        <p style="padding:20px;">
+          Ya te gastaste toda tu suerte hace 2 años el día que le diste jugar a DE y te topaste con un tal Ale JAJA 🤣
+        </p>
       </div>
     </div>
     <div id="booyah-modal" class="modal" onclick="hideModal(event)">
@@ -453,8 +476,8 @@
       </div>
     </div>
     <div id="mensajes-modal" class="modal" onclick="hideModal(event)">
-      <div class="modal-content">
-        <span class="close-btn">&times;</span>
+      <div class="modal-content">  
+        <span class="close-btn">&times;</span>      
         <p style="padding:20px;">Saca las enchiladas de arándano, o de qué eran? JAJA 😋</p>
       </div>
     </div>
@@ -474,7 +497,6 @@
 
   <script>
     let musicPlayer = null;
-
     function showModal(id) {
       document.getElementById(id).style.display = 'block';
     }
